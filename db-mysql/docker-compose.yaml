@@ -1,0 +1,17 @@
+services:
+  db-mysql:
+    image: mysql:8.0.26
+    container_name: db-mysql
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=TDA0002190366
+    ports:
+      - 3377:3306
+      - 33091:33060
+      - 3392:33061
+    networks:
+      - tda2024parcial
+
+networks:
+  tda2024parcial:
+    name: parcial-tda-unu
