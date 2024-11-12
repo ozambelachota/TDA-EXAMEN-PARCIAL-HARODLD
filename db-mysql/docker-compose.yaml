@@ -15,3 +15,4 @@ services:
 networks:
   tda2024parcial:
     name: parcial-tda-unu
+
