@@ -1,6 +1,7 @@
 package com.examenparcial.examenparcial.application;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,7 +10,7 @@ import com.examenparcial.examenparcial.domain.Alumno;
 import com.examenparcial.examenparcial.infrastructure.repository.AlumnoRepository;
 
 @Service
-public class AlumnoService {
+public class AlumnoService implements IAlumnoService{
   @Autowired
   private  AlumnoRepository alumnoRepository;
 
@@ -17,7 +18,7 @@ public class AlumnoService {
     
   }
 
-  public List<Alumno> getAllAlumnos() {
+  public List<Alumno> getAlumnos() {
     return alumnoRepository.findAll();
   }
 
@@ -30,10 +31,21 @@ public class AlumnoService {
   }
 
   public Alumno updateAlumno(Alumno alumno) {
-    return alumnoRepository.save(alumno);
-  } 
+    if (alumnoRepository.findById(alumno.getId()) != null) {
+        return alumnoRepository.save(alumno);
+    } else {
+        return null;
+    }
+}
 
-  public boolean deleteAlumno(int id) {
-    return alumnoRepository.deleteById(id);
+// Eliminar un alumno por ID
+public boolean deleteAlumno(int id) {
+  Optional<Alumno> alumno = alumnoRepository.findById(id);
+  if (alumno.isPresent()) {
+      alumnoRepository.deleteById(id);  // Elimina el alumno si existe
+      return true;  // Indica que fue eliminado
   }
+  return false;  // Indica que no se encontró el alumno
+}
+
 }
