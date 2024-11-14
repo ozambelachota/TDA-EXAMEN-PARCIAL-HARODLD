@@ -1,4 +1,4 @@
-package com.examenparcial.examenparcial.application;
+package com.examenparcial.examenparcial.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,8 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.examenparcial.examenparcial.domain.Alumno;
-import com.examenparcial.examenparcial.infrastructure.repository.AlumnoRepository;
+import com.examenparcial.examenparcial.model.Alumno;
+import com.examenparcial.examenparcial.repository.AlumnoRepository;
 
 @Service
 public class AlumnoService implements IAlumnoService{

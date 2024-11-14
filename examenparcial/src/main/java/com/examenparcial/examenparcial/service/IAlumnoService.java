@@ -1,8 +1,8 @@
-package com.examenparcial.examenparcial.application;
+package com.examenparcial.examenparcial.service;
 
 import java.util.List;
 
-import com.examenparcial.examenparcial.domain.Alumno;
+import com.examenparcial.examenparcial.model.Alumno;
 
 public interface IAlumnoService {
 

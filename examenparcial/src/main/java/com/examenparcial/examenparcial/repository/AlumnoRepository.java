@@ -1,9 +1,9 @@
-package com.examenparcial.examenparcial.infrastructure.repository;
+package com.examenparcial.examenparcial.repository;
 
 import java.util.List;
 import java.util.Optional;
 
-import com.examenparcial.examenparcial.domain.Alumno;
+import com.examenparcial.examenparcial.model.Alumno;
 
 public interface AlumnoRepository {
 

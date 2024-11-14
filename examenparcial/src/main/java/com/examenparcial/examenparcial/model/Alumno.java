@@ -1,4 +1,4 @@
-package com.examenparcial.examenparcial.domain;
+package com.examenparcial.examenparcial.model;
 
 import java.math.BigDecimal;
 
