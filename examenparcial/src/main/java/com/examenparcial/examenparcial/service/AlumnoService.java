@@ -1,25 +1,22 @@
 package com.examenparcial.examenparcial.service;
 
+import com.examenparcial.examenparcial.model.Alumno;
+import com.examenparcial.examenparcial.repository.IAlumnoRepository;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.examenparcial.examenparcial.model.Alumno;
-import com.examenparcial.examenparcial.repository.AlumnoRepository;
-
 @Service
-public class AlumnoService implements IAlumnoService{
-  @Autowired
-  private  AlumnoRepository alumnoRepository;
+public class AlumnoService implements IAlumnoService {
 
-  public AlumnoService() {
-    
-  }
+  @Autowired
+  private IAlumnoRepository alumnoRepository;
+
+  public AlumnoService() {}
 
   public List<Alumno> getAlumnos() {
-    return alumnoRepository.findAll();
+    return (List<Alumno>) alumnoRepository.findAll();
   }
 
   public Alumno getAlumnoById(int id) {
@@ -31,21 +28,15 @@ public class AlumnoService implements IAlumnoService{
   }
 
   public Alumno updateAlumno(Alumno alumno) {
-    if (alumnoRepository.findById(alumno.getId()) != null) {
-        return alumnoRepository.save(alumno);
-    } else {
-        return null;
-    }
-}
-
-// Eliminar un alumno por ID
-public boolean deleteAlumno(int id) {
-  Optional<Alumno> alumno = alumnoRepository.findById(id);
-  if (alumno.isPresent()) {
-      alumnoRepository.deleteById(id);  // Elimina el alumno si existe
-      return true;  // Indica que fue eliminado
+    return alumnoRepository.save(alumno);
   }
-  return false;  // Indica que no se encontró el alumno
-}
 
+  public boolean deleteAlumno(int id) {
+    Optional<Alumno> alumno = alumnoRepository.findById(id);
+    if (alumno.isPresent()) {
+      alumnoRepository.deleteById(id);
+      return true;
+    }
+    return false;
+  }
 }
