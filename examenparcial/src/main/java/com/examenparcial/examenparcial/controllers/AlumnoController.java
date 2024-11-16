@@ -1,8 +1,11 @@
 package com.examenparcial.examenparcial.controllers;
 
 import com.examenparcial.examenparcial.model.Alumno;
+import com.examenparcial.examenparcial.model.ApiEndpoint;
 import com.examenparcial.examenparcial.service.AlumnoService;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,13 +19,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("alumno")
+@RequestMapping(ApiEndpoint.BASE_URL_ALUMNO)
 public class AlumnoController {
+
+  private static final Logger logger = LoggerFactory.getLogger(
+    AlumnoController.class
+  );
 
   @Autowired
   private AlumnoService alumnoService;
 
-  @GetMapping("/all")
+  @GetMapping(ApiEndpoint.GET_ALUMNOS_ALL)
   public ResponseEntity<?> findAll() {
     try {
       List<Alumno> alumnos = alumnoService.getAlumnos();
@@ -31,6 +38,7 @@ public class AlumnoController {
       }
       return new ResponseEntity<>(alumnos, HttpStatus.OK);
     } catch (Exception e) {
+      logger.error("Error al obtener los alumnos ", e.getMessage(), e);
       return new ResponseEntity<>(
         "Error interno del servidor: " + e.getMessage(),
         HttpStatus.INTERNAL_SERVER_ERROR
@@ -38,15 +46,17 @@ public class AlumnoController {
     }
   }
 
-  @GetMapping("/find/{id}")
+  @GetMapping(ApiEndpoint.GET_ALUMNO_BY_ID)
   public ResponseEntity<?> find(@PathVariable Integer id) {
     try {
       Alumno alumno = alumnoService.getAlumnoById(id);
       if (alumno == null) {
+        logger.error("Alumno no encontrado");
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
       return new ResponseEntity<>(alumno, HttpStatus.OK);
     } catch (Exception e) {
+      logger.error("Error al obtener el alumno ", e.getMessage(), e);
       return new ResponseEntity<>(
         "Error interno del servidor: " + e.getMessage(),
         HttpStatus.INTERNAL_SERVER_ERROR
@@ -55,18 +65,28 @@ public class AlumnoController {
   }
 
   // Crear un nuevo alumno
-  @PostMapping("/create")
+  @PostMapping(ApiEndpoint.CREATE_ALUMNO)
   public ResponseEntity<?> create(@RequestBody Alumno alumno) {
+    if (alumno.getNombre() == null || alumno.getNota() == null) {
+      logger.error("Error al crear el alumno faltan datos");
+      return new ResponseEntity<>(
+        "Error al crear el alumno faltan datos",
+        HttpStatus.BAD_REQUEST
+      );
+    }
+
     try {
-      if (alumno == null) {
+      Alumno alumnoCreado = alumnoService.saveAlumno(alumno);
+      if (alumnoCreado == null) {
+        logger.error("Error al crear el alumno");
         return new ResponseEntity<>(
-          "Faltan datos o error de formato",
+          "Error al crear el alumno",
           HttpStatus.BAD_REQUEST
         );
       }
-      Alumno alumnoCreado = alumnoService.saveAlumno(alumno);
       return new ResponseEntity<>(alumnoCreado, HttpStatus.CREATED);
     } catch (Exception e) {
+      logger.error("Error al crear el alumno ", e.getMessage(), e);
       return new ResponseEntity<>(
         "Error interno del servidor: " + e.getMessage(),
         HttpStatus.INTERNAL_SERVER_ERROR
@@ -75,7 +95,7 @@ public class AlumnoController {
   }
 
   // Actualizar un alumno
-  @PutMapping("/update/{id}")
+  @PutMapping(ApiEndpoint.UPDATE_ALUMNO)
   public ResponseEntity<?> update(
     @PathVariable Integer id,
     @RequestBody Alumno alumno
@@ -88,6 +108,7 @@ public class AlumnoController {
       );
       Alumno alumnoActualizado = alumnoService.updateAlumno(alumnoUpdate);
       if (alumnoActualizado == null) {
+        logger.error("Alumno no encontrado");
         return new ResponseEntity<>(
           "Alumno no encontrado",
           HttpStatus.NOT_FOUND
@@ -95,6 +116,7 @@ public class AlumnoController {
       }
       return new ResponseEntity<>(alumnoActualizado, HttpStatus.OK);
     } catch (Exception e) {
+      logger.error("Error al actualizar el alumno ", e.getMessage(), e);
       return new ResponseEntity<>(
         "Error interno del servidor: " + e.getMessage(),
         HttpStatus.INTERNAL_SERVER_ERROR
@@ -103,11 +125,12 @@ public class AlumnoController {
   }
 
   // Eliminar un alumno
-  @DeleteMapping("/delete/{id}")
+  @DeleteMapping(ApiEndpoint.DELETE_ALUMNO)
   public ResponseEntity<?> delete(@PathVariable Integer id) {
     try {
       boolean eliminado = alumnoService.deleteAlumno(id);
       if (!eliminado) {
+        logger.error("Alumno no encontrado");
         return new ResponseEntity<>(
           "Alumno no encontrado",
           HttpStatus.NOT_FOUND
@@ -115,6 +138,7 @@ public class AlumnoController {
       }
       return new ResponseEntity<>("alumno eliminado", HttpStatus.NO_CONTENT);
     } catch (Exception e) {
+      logger.error("Error al eliminar el alumno ", e.getMessage(), e);
       return new ResponseEntity<>(
         "Error interno del servidor: " + e.getMessage(),
         HttpStatus.INTERNAL_SERVER_ERROR
