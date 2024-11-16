@@ -52,7 +52,10 @@ public class AlumnoController {
       Alumno alumno = alumnoService.getAlumnoById(id);
       if (alumno == null) {
         logger.error("Alumno no encontrado");
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(
+          "usuario no encontrado",
+          HttpStatus.NOT_FOUND
+        );
       }
       return new ResponseEntity<>(alumno, HttpStatus.OK);
     } catch (Exception e) {
