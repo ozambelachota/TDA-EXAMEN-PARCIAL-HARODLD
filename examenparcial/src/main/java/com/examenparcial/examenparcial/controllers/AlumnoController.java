@@ -34,8 +34,10 @@ public class AlumnoController {
     try {
       List<Alumno> alumnos = alumnoService.getAlumnos();
       if (alumnos.isEmpty()) {
+        logger.error("No hay alumnos");
         return new ResponseEntity<>("No hay alumnos", HttpStatus.NOT_FOUND);
       }
+      logger.info("Alumnos encontrados");
       return new ResponseEntity<>(alumnos, HttpStatus.OK);
     } catch (Exception e) {
       logger.error("Error al obtener los alumnos ", e.getMessage(), e);
@@ -53,7 +55,7 @@ public class AlumnoController {
       if (alumno == null) {
         logger.error("Alumno no encontrado");
         return new ResponseEntity<>(
-          "usuario no encontrado",
+          "Alumno no encontrado",
           HttpStatus.NOT_FOUND
         );
       }

@@ -5,6 +5,7 @@ services:
     restart: always
     environment:
       - MYSQL_ROOT_PASSWORD=TDA0002190366
+      - MYSQL_DATABASE=db_parcial_tda_unu
     ports:
       - 3377:3306
       - 33091:33060

@@ -1,29 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <!-- Define el patrón de salida de los logs -->
-    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>logs/error.log</file>
-        <append>true</append>
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
-        </encoder>
-    </appender>
-
-    <!-- Agrega un appender adicional para mostrar logs en la consola -->
+    <!-- Appender para mostrar logs en la consola -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <!-- Define el nivel de logging para todos los logs -->
+    <!-- Appender para guardar logs en un archivo -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/app.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/app.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>7</maxHistory> <!-- Mantén los logs por 7 días -->
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Configuración del logger para tu paquete -->
+    <logger name="com.examenparcial.examenparcial" level="DEBUG" additivity="false">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE" />
+    </logger>
+
+    <!-- Ajustar el nivel de logs de Hibernate -->
+    <logger name="org.hibernate" level="WARN" />
+
+    <!-- Configuración del nivel de logs global (raíz) -->
     <root level="INFO">
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="FILE" />
     </root>
-
-    <!-- Solo guarda errores en el archivo de log -->
-    <logger name="com.examenparcial" level="ERROR" additivity="false">
-        <appender-ref ref="FILE" />
-    </logger>
 </configuration>
