@@ -34,7 +34,7 @@ public class AlumnoController {
     try {
       List<Alumno> alumnos = alumnoService.getAlumnos();
       if (alumnos.isEmpty()) {
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("No hay alumnos", HttpStatus.NOT_FOUND);
       }
       return new ResponseEntity<>(alumnos, HttpStatus.OK);
     } catch (Exception e) {
@@ -57,6 +57,7 @@ public class AlumnoController {
           HttpStatus.NOT_FOUND
         );
       }
+      logger.info("Alumno encontrado");
       return new ResponseEntity<>(alumno, HttpStatus.OK);
     } catch (Exception e) {
       logger.error("Error al obtener el alumno ", e.getMessage(), e);
@@ -87,6 +88,7 @@ public class AlumnoController {
           HttpStatus.BAD_REQUEST
         );
       }
+      logger.info("Alumno creado");
       return new ResponseEntity<>(alumnoCreado, HttpStatus.CREATED);
     } catch (Exception e) {
       logger.error("Error al crear el alumno ", e.getMessage(), e);
@@ -103,6 +105,27 @@ public class AlumnoController {
     @PathVariable Integer id,
     @RequestBody Alumno alumno
   ) {
+    if (id == null) {
+      logger.error("Error al actualizar el alumno faltan datos");
+      return new ResponseEntity<>(
+        "Error al actualizar el alumno faltan datos",
+        HttpStatus.BAD_REQUEST
+      );
+    }
+    if (alumno == null) {
+      logger.error("Error al actualizar el alumno faltan datos");
+      return new ResponseEntity<>(
+        "Error al actualizar el alumno faltan datos",
+        HttpStatus.BAD_REQUEST
+      );
+    }
+    if (alumno.getNombre() == null || alumno.getNota() == null) {
+      logger.error("Error al actualizar el alumno faltan datos");
+      return new ResponseEntity<>(
+        "Error al actualizar el alumno faltan datos",
+        HttpStatus.BAD_REQUEST
+      );
+    }
     try {
       Alumno alumnoUpdate = new Alumno(
         id,
