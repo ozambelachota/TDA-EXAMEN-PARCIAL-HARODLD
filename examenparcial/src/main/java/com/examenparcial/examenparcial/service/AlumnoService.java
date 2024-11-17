@@ -3,7 +3,6 @@ package com.examenparcial.examenparcial.service;
 import com.examenparcial.examenparcial.model.Alumno;
 import com.examenparcial.examenparcial.repository.IAlumnoRepository;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,8 +31,7 @@ public class AlumnoService implements IAlumnoService {
   }
 
   public boolean deleteAlumno(int id) {
-    Optional<Alumno> alumno = alumnoRepository.findById(id);
-    if (alumno.isPresent()) {
+    if (alumnoRepository.existsById(id)) {
       alumnoRepository.deleteById(id);
       return true;
     }
