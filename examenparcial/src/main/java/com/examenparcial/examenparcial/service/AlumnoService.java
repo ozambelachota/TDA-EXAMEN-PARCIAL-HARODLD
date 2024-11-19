@@ -27,7 +27,11 @@ public class AlumnoService implements IAlumnoService {
   }
 
   public Alumno updateAlumno(Alumno alumno) {
-    return alumnoRepository.save(alumno);
+      if(alumnoRepository.existsById(alumno.getId())) { 
+          return alumnoRepository.save(alumno);
+        } else {
+            return null;
+        }
   }
 
   public boolean deleteAlumno(int id) {

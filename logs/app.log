@@ -304,3 +304,10 @@ Caused by: org.hibernate.HibernateException: Unable to determine Dialect without
 2024-11-19 10:18:39 [main] INFO  c.e.e.ExamenparcialApplication - No active profile set, falling back to 1 default profile: "default"
 2024-11-19 10:18:45 [main] INFO  c.e.e.ExamenparcialApplication - Started ExamenparcialApplication in 6.999 seconds (process running for 7.57)
 2024-11-19 10:19:46 [http-nio-3500-exec-1] INFO  c.e.e.controllers.AlumnoController - Alumnos encontrados
+2024-11-19 14:02:51 [main] INFO  c.e.e.ExamenparcialApplication - Starting ExamenparcialApplication using Java 21 with PID 21988 (D:\haroldozambela\TDA-EXAMEN-PARCIAL-HAROLD\examenparcial\target\classes started by USUARIO in D:\haroldozambela\TDA-EXAMEN-PARCIAL-HAROLD)
+2024-11-19 14:02:51 [main] DEBUG c.e.e.ExamenparcialApplication - Running with Spring Boot v3.3.5, Spring v6.1.14
+2024-11-19 14:02:51 [main] INFO  c.e.e.ExamenparcialApplication - No active profile set, falling back to 1 default profile: "default"
+2024-11-19 14:02:53 [main] INFO  c.e.e.ExamenparcialApplication - Started ExamenparcialApplication in 2.775 seconds (process running for 2.976)
+2024-11-19 14:05:54 [http-nio-3500-exec-1] ERROR c.e.e.controllers.AlumnoController - No hay alumnos
+2024-11-19 14:07:08 [http-nio-3500-exec-4] INFO  c.e.e.controllers.AlumnoController - Alumno creado
+2024-11-19 14:08:25 [http-nio-3500-exec-6] ERROR c.e.e.controllers.AlumnoController - Error al actualizar el alumno faltan datos
